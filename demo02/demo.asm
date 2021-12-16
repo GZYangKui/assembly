@@ -29,7 +29,7 @@ _start:
 
 .type power,@function
 power:
- push %ebp #保存当前基址指针
+ pushl %ebp #保存当前基址指针
  movl %esp,%ebp #将基址指针指向当前栈指针地址
  subl $4,%esp #为本地存储预留空间
  movl 8(%ebp),%ebx #将第一个参数放入%ebx
