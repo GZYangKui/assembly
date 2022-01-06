@@ -1,4 +1,5 @@
 # ASM function use register give the inut data
+.code32
 .section .data
 	str:.ascii "ASM THIRD DAY\n"
 	sl=.-str
@@ -6,8 +7,8 @@
 .section .text
 .global _start
 _start:
-	movl $0, %eax		# Init eax
-	movl $2, %ebx		# Prepare data in ebx first
+	pushl $1  #入栈第二个参数
+	pushl $5  #入栈第一个参数
 
 	call add_func		# Then call child function
 
@@ -26,6 +27,13 @@ _start:
 # The method of GNU define a function
 .type add_func, @function
 add_func:
-	add %ebx, 	%ebx
-	movl %ebx, 	%eax
+	pushl %ebp
+	movl %esp,%ebp
+	 #向外扩展一个字用于存储计算结果
+	subl $4,%esp
+	movl 8(%ebp),%eax
+	movl 12(%ebp),%ecx
+	addl %ebx,%ecx
+	movl %ecx,-4(%ebp)
+	popl %ebp
 ret
