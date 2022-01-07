@@ -1,17 +1,32 @@
-#在汇编程序中，任何以小数点符
-#号开始的指令不会被直接翻译成及机器指令,
-#这些针对汇编程序本身的指令，由汇编程序处理,
-#实际上并不会由计算机运行,因此被称之为汇编指令或者
-#伪指令
-.section .data  #标识数据段的开始,数据段中要列出程序数据所需的所有内存存储空间
-.section .text #标识文本段的开始,文本段是存放程序指令的部分
-.global _start
-_start:
-#这是用于退出程序的linux内核命令号(系统代用)
-movl $1,%eax
-#这是我们将返回给系统的状态码
-#改变这个数组，则返回到echo $?的值会不同
-movl $0,%ebx
-#这将唤醒内核，以运行退出命令
-int $0x80
+section .data
+;定义常量
+EXIT_SUCCESS equ 0
+SYS_EXIT     equ 60
+;定义Byte(8bit)变量
+bVar1     db    17
+bVar2     db    9
+bResult   db    0
+;定义word(16bit)变量
+wVar1    dw    1700
+wVar2    dw    9000
+wResult  dw    0
+;定义Double-word(32bit)变量
+dVar1    dd    17000000
+dVar2    dd    9000000
+dResult  dd    0
+;定义quadword(64bit)变量
+qVar1    dq    17000000
+qVar2    dq    90000000
+qResult  dq    0
 
+section .text
+global _start
+_start:
+mov al,byte [bVar1]
+add al,byte [bVar2]
+mov byte [bResult],al
+
+last:
+mov rax,SYS_EXIT
+mov rdi,EXIT_SUCCESS
+syscall
