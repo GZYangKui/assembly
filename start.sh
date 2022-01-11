@@ -10,4 +10,5 @@ if [ ! -e "$1.asm" ]; then
 fi
 
 yasm -Worphan-labels -g dwarf2 -f elf64 $1.asm -l $1.lst -o $1.o && ld -g -o $1 $1.o
-ddd $1
+#ddd $1
+#$1

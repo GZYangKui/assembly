@@ -86,8 +86,14 @@
    7.1.2 转换指令
    7.1.3 运算指令
      7.1.3.1 整数相加指令
-       指令用法: add <dest>,<src> (<des>=<des>+<src>)
-
+       指令用法:
+        常规加法:add <dest>,<src> (<des>=<des>+<src>)
+        进位加法:adc <dest>,<src> (<dest>=<dest>+src)
+        自增加法:inc <operand> (inc word [wVar])
+     7.1.3.2 整数减法
+       指令用法:
+         常规减法:sub <dest>,<src> (dest=dest-src)
+         变量自减:des <operand>   (operand=operand-1)
    7.1.4 逻辑指令
    7.1.5 控制指令
   7.2 变量值和地址
