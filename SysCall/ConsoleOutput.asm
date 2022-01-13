@@ -3,14 +3,14 @@ section .data
 ;标准输出(系统调用代码)
  STDOUT    equ 1
  SYS_WRITE equ 1
- msg       db  "Hello,world"
- msgLen    dq   11
+ ;数组
+ msg       db  "Hello,world",10,0
+ msgLen    dq   12
 
 section .text
 global _start
 _start:
  mov rax,SYS_WRITE
- mov rdi,STDOUT
  mov rsi,msg
  mov rdx,qword [msgLen]
  syscall
