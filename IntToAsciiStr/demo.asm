@@ -6,9 +6,7 @@ EXIT_SUCCESS equ 0
 SYS_WRITE equ 1
 
 intNum dd  1489
-ascii  dw  8
-msg       db  "Hello,world",10,0
-msgLen    dq   12
+
 section .bss
 strNum resb 10
 
@@ -41,10 +39,6 @@ mov byte [rbx+rdi],10
 inc rdi
 mov byte [rbx+rdi],NULL
 
-;将字符串地址存到rsi寄存器中
-;mov rax, SYS_WRITE
-;mov rsi, msg
-;mov rdx, qword [msgLen]
 
 syscall
 
