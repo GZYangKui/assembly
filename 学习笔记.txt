@@ -110,3 +110,9 @@
     lea rcx,byte [bvar]
     lea rsi,dword [dvar]
 
+8 汇编中的宏定义
+ 8.1 单行宏定义: %define <name> <content>
+ 8.2 多行宏定义: %marco <name> <number of arguments>
+            ; [body of marco]
+            %endmacro
+ 其中参数通过%引用，%1代表第一个参数，%2代表第二个参数。如果宏定义中存在标签定义，标签前需以%%冠以前缀。
