@@ -38,7 +38,7 @@ readCharacter:
  cmp al,LF
  je readDone
  inc r12
- cmp r12,STR_LEN
+ cmp r12,STR_LEN ;如果chars大于最大允许字符长度,则停止放入buffer
  jae readCharacter
  mov byte [rbx],al
  inc rbx
@@ -56,6 +56,8 @@ syscall
 ;定义打印函数
 global printString
 printString:
+ push rbp
+ mov rbp,rsp
  push rbx
  mov rbx,rdi
  mov rdx,0
@@ -74,5 +76,6 @@ strCountDone:
  mov rdi,STDOUT
  syscall
 prtDone:
-pop rbx
-ret
+ pop rbx
+ pop rbp
+ ret

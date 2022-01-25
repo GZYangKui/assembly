@@ -133,3 +133,50 @@
   9.3 注意事项
    9.3.1 整个程序同名函数只能定义一次
    9.3.2 函数定义需要介于开始(start)和结束(last)函数之间
+  9.4 函数调用过程个人理解(如有错误请指出)
+   假设存在如下调用代码:
+       section .data
+        SYS_exit       equ     60
+        EXIT_SUCCESS   equ     0
+        a              dq      0
+        b              dq      0
+        sum            dq      0
+
+       section .text
+       global _start
+       _start:
+        ;按照c/c++语言调用约定入栈参数
+        push b
+        push a
+        call sum_func
+
+       last:
+        mov rax,SYS_exit
+        mov rdi,EXIT_SUCCESS
+        syscall
+       ;函数实现sum=a+b功能
+       global sum_func
+       sum_func:
+        push rbp
+        mov rbp,rsp
+        mov rax,qword [a]
+        add rax,qword [b]
+        mov rsp,rbp
+        pop rbp
+        ret
+   调用执行过程：
+    ___________________________________________________________________________________________________
+        push a                                   ————> rsp
+        push b                                   ————> rsp-8
+        push call func address (call sum_func)   ————> rsp-16(函数返回地址)
+        push rbp                                 ————> 保存调用函数基址地址(rsp-24)
+        mov rbp,rsp                              ————> 将rbp指向(rsp-16)这个位置
+        mov rax,qword [a]
+        add rax,qword [b]
+        mov rsp,rbp
+        mov rsp,rbp                              ————> 重新将rsp调整到(rsp-24)位置处
+        pop rbp                                  ————> 恢复调用函数基址地址,由于pop缘故当前栈
+                                                        指针位于(rsp-16)处。
+        ret                                      ————> 弹出栈顶值(函数返回地址rsp-16),并将
+                                                        指令指针(rip)指向该值,继续执行调用函数余下代码
+   _________________________________________________________________________________________________
