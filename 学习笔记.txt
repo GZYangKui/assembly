@@ -110,7 +110,7 @@
    global _start
    _start:
     push var1         -> push $0x402008 将var1变量地址值作为一个立即数push进入栈中
-    push qword [var1] -> push 0x402008  将var1变量指针push入栈，可以通过该指针进行变量数据操作
+    push qword [var1] -> push 0x402008  将var1变量值push入栈，可以通过该指针进行变量数据操作
    如果需要访问地址建议使用lea指令。
    指令格式：lea <reg64>,<mem>   将地址<mem>放到寄存器reg64中
    例子:
