@@ -10,7 +10,7 @@ _start:
  push qword [b]
  push qword [a]
  call switch_operate
- lea rax,qword [a                   ]
+ lea rax,qword [a]
 
 last:
  mov rax,SYS_exit
@@ -22,13 +22,13 @@ global switch_operate
 switch_operate:
  push rbp
  mov rbp,rsp
- sub rsp,8
- mov rax,qword [a]
- mov qword [rsp-8],rax
- mov rbx,qword [b]
- mov rax,rbx
  ;栈向下扩展8个字节用于中间交换所用
- mov rbx,qword [rsp-8]
+ sub rsp,8
+ mov rax,qword [rbp+16]
+ mov qword [rbp-8],rax
+ mov rbx,qword [rbp+24]
+ mov rax,rbx
+ mov rbx,qword [rbp-8]
  mov qword [a],rax
  mov qword [b],rbx
  mov rsp,rbp
