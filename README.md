@@ -18,6 +18,42 @@
   | dq | 8B  |
   | dt | 16B |
 
+  - RESB and Friends:定义未初始化数据
+
+    RESB, RESW, RESD, RESQ, REST, RESDQ, and RESO用于在BSS代码段中申明魏初始化数据。
+   
+   例子:
+   ```asm
+    buffer: resb 64 ; 保留64字节
+    wordvar: resw 1 ; 保留一个字
+    realarray resq 10 ; 保留80个字节
+   ```
+  - 引入外部二进制文件
+  INCBIN在输出文件中逐字包含一个二进制文件。这对于（例如）包括图形和声音数据直接输入游戏可执行文件。但是，建议将其用于只有一小部分数据。它可以通过以下三种方式之一调用：
+  ```asm
+  incbin "file.dat" ; 包含整个文件
+  incbin "file.dat",1024 ; 跳过文件开头1024个字节
+  incbin "file.dat",1024,512 ; 跳过文件头前1024个字节，并读取512个字节
+  ```
+  - 常量定义(equ)
+  equ定义一个常量,equ前必须包含一个label,常量值一旦定义就无法更改。
+  ```asm
+  message db ’hello, world’
+  msglen equ $-message
+  ```
+  - times:指令/数据重复
+  times会将后面的指令重复指定的次数:
+  ```asm
+  zerobuf:        times 64 db 0;
+  ```
+  times中的次数除了可以是常量，还可以是表达式:
+  ```asm
+  buffer: db      ’hello, world’        
+  times 64-$+buffer db ’ ’ ;补齐64字节
+  ```
+  由于NASM在处理了macro之后才会处理times伪指令，因此需要注意是是times伪指令不能在macro里面使用。
+
+
 ## 寻址方式
 
 * 什么是寻址方式
