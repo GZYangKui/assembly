@@ -6,8 +6,9 @@ SYS_OUT         equ             1
 
 section .text
 
-
-;封装通用控制台输出文字信息
+;
+;封装通用控制台输出文字信息,调用该函数仅需将字符串地址放入rsi寄存器中即可(注意字符串必须以NULL结尾,否则程序可能异常)
+;
 global print_text
 print_text:
 ; 保存寄存器信息
