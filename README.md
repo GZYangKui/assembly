@@ -53,6 +53,13 @@
   ```
   由于NASM在处理了macro之后才会处理times伪指令，因此需要注意是是times伪指令不能在macro里面使用。
 
+## NASM预处理器
+- 单行的宏
+```
+ %define label instruct
+```
+注意%define是大小写敏感的，在代码`%define foo bar`之后，只有‘foo‘会被扩展成‘bar’，‘Foo’和'FOO
+都不会。用`%idefine`可以一次性定义所有大小写不停的宏。所以`%idefine foo bar`会导致'foo'、'FOO','Foo'等都会扩展成bar。
 
 ## 寻址方式
 
@@ -107,4 +114,17 @@
 * 如果一个函数/变量在当前源码文件中不存在,汇编编译器在编译时将会产生错误， 为了通知汇编编译器该函数/变量定义在其他文件中，可以使用*extern*语句。
 
 > 语法:`extern <synmbolName>`
+
+
+## Q&A
+* CDQ指令实现原理?
+> CDQ 是一个让很多人感到困惑的指令。  这个指令把 EAX 的第 31 bit 复制到 EDX 的每一个 bit 上。 它大多出现在除法运算之前。它实际的作用只是把EDX的所有位都设成EAX最高位的值。也就是说，当EAX <80000000, EDX 为00000000；当EAX >= 80000000， EDX 则为FFFFFFFF。
+例如 :
+假设 EAX 是 FFFFFFFB (-5) ，它的第 31 bit (最左边) 是 1，
+执行 CDQ 后， CDQ 把第 31 bit 复制至 EDX 所有 bit
+EDX 变成 FFFFFFFF
+这时候， EDX:EAX 变成 FFFFFFFF FFFFFFFB ，它是一个 64 bit 的大型数字，数值依旧是 -5。
+
+> 备注：
+EDX:EAX,这里表示EDX，EAX连用表示64位数
 
