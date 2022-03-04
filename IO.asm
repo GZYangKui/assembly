@@ -33,9 +33,11 @@ add bl,48
 mov byte[strBuff+r8],bl
 inc r8
 cmp rax,0
+;求余获取单个字符
 jne leftLoop
 mov r9,0
 mov r10,r8
+;反转字符串
 reviseBuff:
 mov bl,byte[strBuff+r8-1]
 mov byte[strBuff1+r9],bl
@@ -43,9 +45,11 @@ dec r8
 inc r9
 cmp r9,r10
 jbe reviseBuff
+;添加LF和NULL到字符串尾
 mov byte[strBuff1+r10],LF
 mov byte[strBuff1+r10+1],NULL
 mov rsi,strBuff1
+;打印字符串
 call print_text
 pop rbx
 pop rbp

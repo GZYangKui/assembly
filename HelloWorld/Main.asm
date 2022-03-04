@@ -12,7 +12,7 @@ msg             db    "Hello,World!",LF,NULL
 section .text
 global _start
 _start:
-push $-$$
+push $
 call print_num
 mov rsi,msg
 call print_text
